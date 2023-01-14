@@ -1,0 +1,34 @@
+<h1 class="font-bold mb-2 text-center text-lg">
+  Angular
+</h1>
+
+<input type="text" class="mb-2 border py-2 px-0 md:px-4 w-full" placeholder="Filter..." [(ngModel)]="term">
+
+
+<div *ngIf="loading">
+  <ngx-skeleton-loader count="4"
+                       appearance="line"
+                       animation="pulse"
+                       [theme]="{
+     'background-color': '#CCC/0.5',
+      height: '320px',
+     'border-radius': '8px'
+   }"></ngx-skeleton-loader>
+</div>
+
+<div *ngIf="products$ | async as products">
+  <app-product *ngFor="let product of products | filter:term" [product]="product"></app-product>
+</div>
+
+<!--<div class="flex justify-center items-center h-screen" *ngIf="loading">-->
+<!--  <div class="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">-->
+<!--    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gray-200 rounded-full border-2 border-white"></div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<app-modal *ngIf="modalService.isVisible$ | async">
+  <app-create-component></app-create-component>
+</app-modal>
+
+<button class="rounded-full bg-red-700 text-white fixed right-5 bottom-5 py-2 px-4" (click)="modalService.open()">+
+</button>
